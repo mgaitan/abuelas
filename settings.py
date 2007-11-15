@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Django settings for abuelas project.
 
 DEBUG = True
@@ -9,9 +10,11 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+#DATABASE_ENGINE = 'postgresql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'abuelas'             # Or path to database file if using sqlite3
 DATABASE_USER = 'root'             # Not used with sqlite3.
+#DATABASE_PASSWORD = 'pass'         # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
@@ -21,7 +24,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # although not all choices may be avilable on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Argentina/Buenos Aires'
+TIME_ZONE = 'America/Argentina/Cordoba'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -77,7 +80,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-	'abuelas.django_evolution',
+	'django.django-evolution.django_evolution',
 	'abuelas.seguimiento',
+	'abuelas.restaurant',	
 	'django.contrib.admin'
 )
