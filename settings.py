@@ -79,9 +79,9 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
-	'django.django-evolution.django_evolution',
+    #'django.contrib.sites',
+	#'django.django-evolution.django_evolution',
 	'abuelas.seguimiento',
-	'abuelas.restaurant',	
+	'abuelas.tareas',	
 	'django.contrib.admin'
 )
