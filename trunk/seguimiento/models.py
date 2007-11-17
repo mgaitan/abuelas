@@ -6,30 +6,30 @@ from django.contrib.auth.models import User
 
        
 class Fiscal(models.Model):
-    nombreApellido = models.CharField("Nombre y Apellido", maxlength=70)
+    nombre_apellido = models.CharField("Nombre y Apellido", maxlength=70)
     fiscalia = models.CharField(maxlength=100)
     observaciones = models.TextField(blank=True)
     direccion_fiscalia = models.CharField(maxlength=150,blank=True)
-    personaContacto = models.CharField(maxlength=150,blank=True)
+    persona_contacto = models.CharField(maxlength=150,blank=True)
     email = models.EmailField(blank=True)
     telefonos = models.CharField(maxlength=50, blank=True)
 
     def __unicode__(self):
-        return self.nombreApellido + "(" + self.fiscalia + ")"
+        return self.nombre_apellido + "(" + self.fiscalia + ")"
             
     class Admin:
-        list_display = ('nombreApellido', 'fiscalia', 'telefonos')
-        list_filter = ('nombreApellido', 'fiscalia')
-        search_fields = ['nombreApellido', 'fiscalia', '@observaciones']
+        list_display = ('nombre_apellido', 'fiscalia', 'telefonos')
+        list_filter = ('nombre_apellido', 'fiscalia')
+        search_fields = ['nombre_apellido', 'fiscalia', '@observaciones']
         
     class Meta:        
         verbose_name_plural = "Fiscales"
-        ordering = ['nombreApellido']        
+        ordering = ['nombre_apellido']        
 
 class Querellante(models.Model):
     nombre = models.CharField(maxlength=50)
     apellido = models.CharField(maxlength=50, blank=True)
-    fisicaOjuridica = models.CharField(maxlength=1,choices=(('F', u'Física'),('J', u'Jurídica'),))
+    fisica_juridica = models.CharField(maxlength=1,choices=(('F', u'Física'),('J', u'Jurídica'),))
     observaciones = models.TextField(blank=True)
     abogado = models.CharField(maxlength=50, blank=True)
     def __unicode__(self):
@@ -43,8 +43,8 @@ class Joven(models.Model):
     madre = models.CharField(u'Nombre de la madre biológica', maxlength=100,blank=True)
     padre = models.CharField(u'Nombre del padre biologico', maxlength=100,blank=True)
     observaciones = models.TextField(blank=True)    
-    nombreAprop = models.CharField("Nombre impuesto", maxlength=50,blank=True)
-    fechaAprop = models.DateField("Fecha de apropiacion",blank=True)
+    nombre_aprob = models.CharField("Nombre impuesto", maxlength=50,blank=True)
+    fecha_aprop = models.DateField("Fecha de apropiacion",blank=True)
     tipo = models.CharField("Situacion", maxlength=50, choices=(('APROP', 'Apropiado'),('ADOPT', 'Adoptado'),), radio_admin=True)
 
     def __unicode__(self):
@@ -53,28 +53,66 @@ class Joven(models.Model):
     class Admin:
         pass
 
+    class Meta:        
+        verbose_name_plural = u'Jóvenes'
 
+
+class TipoImputacion(models.Model):
+	nombre = models.CharField(maxlength=100, unique=True, help_text=u'Sé cuidadoso al agregar un nuevo tipo de imputación.Ej: Apropiador, Partícipe, etc.')
+
+	def __unicode__(self):
+		return self.nombre
+
+	class Admin:
+		pass
+
+	class Meta:
+		verbose_name_plural = u'Tipos de imputación'	
+
+class RolParticipacion(models.Model):
+    nombre = models.CharField(maxlength=50, unique=True, help_text=u'Sé cuidadoso al agregar un rol. Ej: Médico, Partera, etc')
+    
+    def __unicode__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name_plural = u'Roles de participación'
+
+    class Admin:
+        pass    
+
+   
     
 class Imputado(models.Model):
     nombre = models.CharField(maxlength=50)
     apellido = models.CharField(maxlength=50, blank=True)
-    tipoImputacion = models.CharField("Tipo de imputacion", maxlength=50, choices=(('apropiacion', u'Apropiación'),('participacion', u'Participación'),('Otro', 'Otro')))
-    rolImputacion = models.CharField("Rol de imputacion", maxlength=50, choices=(('apropiador', 'Apropiador'),('medico', u'Médico'),('Enfermera', u'Enfermera')))
+    tipo_imputacion = models.ForeignKey(TipoImputacion, verbose_name= u'Tipo de imputación')
+    rol = models.ForeignKey(RolParticipacion, verbose_name=u'Rol en el hecho')
     abogado = models.CharField(maxlength=50, blank=True)
     mayor70 = models.BooleanField(u'Mayor de 70 años?')
     procesado = models.BooleanField(u'¿Está procesado?')
-    observaciones = models.TextField(blank=True)    
-    declaro  =  models.CharField("Tipo de imputacion", maxlength=50, choices=(('apropiacion', u'Apropiación'),('participacion', u'Participación'),('Otro', 'Otro')))
+    observaciones = models.TextField(blank=True)        
     def __unicode__(self):
         return self.nombre + ' ' + self.apellido
 
-    
+    class Admin:
+        pass
+
+class Declaracion(models.Model):
+    declarante = models.ForeignKey(Imputado)
+    fecha = models.DateField(auto_now=True)
+    importante = models.NullBooleanField()
+    comentario = models.TextField()
+    def __unicode__(self):
+        return self.declarante + ' ' + repr(fecha)
+
+	class Meta:        
+		verbose_name_plural = u'Declaraciones'
+
     class Admin:
         pass
 
 
-    
-    
 
 
 class Analisis(models.Model):
@@ -84,91 +122,121 @@ class Analisis(models.Model):
     resultado = models.TextField(blank=True)
 
     def __unicode__(self):
-        return 'Analisis tipo' + tipo 
+        return self.joven + ' (' + self.tipo + ')'
         
     class Admin:
         pass
 
+    class Meta:        
+        verbose_name_plural = u'Análisis'
+
+
+class TipoJuzgado(models.Model):
+    nombre = models.CharField(maxlength=50, help_text=u'Sé cuidadoso al agregar un nuevo tipo de juzgado. Ej: Intrucción, Oral')
+    
+    def __unicode__(self):
+        return self.nombre
+
+    class Admin:
+        pass  
+
+
 class Juzgado(models.Model):
-    nombreJuzgado = models.CharField(u'Nombre y número', maxlength=100)
+    nombre_juzgado = models.CharField(u'Nombre y número', maxlength=100)
+    tipo = models.ForeignKey(TipoJuzgado)
     ciudad = models.CharField(maxlength=50)
-    juez = models.CharField(u'Juez/ces', maxlength=150, blank=True)
+    juez = models.CharField(u'Juez/ces', maxlength=255, blank=True)
     direccion = models.CharField(u'Dirección', maxlength=50,blank=True)
     telefonos = models.CharField(u'Teléfonos', maxlength=100,blank=True)
-    personaContacto = models.CharField(u'Persona de contacto', maxlength=100,blank=True)    
-    emailJuzgado  = models.EmailField(u'Email de contacto', blank=True)
+    persona_contacto = models.CharField(u'Persona de contacto', maxlength=100,blank=True)    
+    email_juzgado  = models.EmailField(u'Email de contacto', blank=True)
     observaciones = models.TextField(blank=True)
 
     def __unicode__(self):
-   	    return self.nombreJuzgado + ' de ' + self.ciudad
+
+		return self.nombre_juzgado + ' de ' + self.ciudad
 
     class Admin:
+
 		fields = ((None, {
-				'fields': ('nombreJuzgado', 'ciudad','juez', 'observaciones')}),
+				'fields': ('nombre_juzgado', 'tipo', 'ciudad','juez', 'observaciones')}),
             ('Informacion de contacto', {
                 'classes': 'collapse',
-                'fields' : ('direccion', 'personaContacto', 'telefonos', 'emailJuzgado')
+                'fields' : ('direccion', 'persona_contacto', 'telefonos', 'email_juzgado')
             }),
        			)    	
 
 
    
 
-class Causa(models.Model):
-	caso = models.CharField(maxlength=100)
-   	caratula = models.CharField(maxlength=100,blank=True)
-   	etapaJudicial = models.CharField("Etapa del proceso", maxlength=100, choices=(('INV', u'Investigación'),('INS', u'Intrucción'),('JO', u'Juicio Oral'),('AP', u'Apelación')))
-   	juzgado = models.ForeignKey(Juzgado, null=True, blank=True)
-   	querellante = models.ForeignKey(Querellante, null=True, blank=True)
-   	abuelas_presentado = models.NullBooleanField(u'¿Abuelas es parte?')
-   	fiscal = models.ForeignKey(Fiscal, null=True, blank=True)
-   	punteo = models.TextField(u'Resúmen', help_text="Puede usar codigo HTML para formatear y linkear su texto", blank=True) #wysiwyg
-   	imputados = models.ManyToManyField(Imputado, blank=True)
-   	joven = models.ManyToManyField(Joven,verbose_name=u"Jóven relacionado/a con la causa",blank=True)   	
+class Caso(models.Model):
+	nombre_caso = models.CharField(maxlength=100)
+	caratula = models.CharField(u'Carátula', maxlength=100,blank=True,help_text=u'Dejá este campo en blanco si el caso aun no fué presentado' )
+	juzgado = models.ForeignKey(Juzgado, null=True, blank=True, help_text=u'Dejá este campo en blanco si el caso aun no fué presentado')
+	querellante = models.ForeignKey(Querellante, null=True, blank=True)
+	fiscal = models.ForeignKey(Fiscal, null=True, blank=True)
+	imputados = models.ManyToManyField(Imputado, blank=True)
+	joven = models.ManyToManyField(Joven,verbose_name=u"Jóven relacionado/a con la causa",blank=True)   	
+	punteo = models.TextField(u'Resúmen', help_text=u'Usá la barra de herramientas para formatear y linkear el texto', blank=True) #wysiwyg
 
 
    	def __unicode__(self):
-   		return self.caso
-    
+   		return self.nombre_caso
+
 	class Admin:
 		js = ('/datos/js/jquery/jquery.js',
 			'/datos/js/wymeditor/jquery.wymeditor.js',
 			'/datos/js/admin_textarea.js')
 
-		list_display = ('caso','caratula', 'etapaJudicial', 'juzgado', 'querellante')
-		list_display_links = ('caso','caratula')
-		list_filter = ('etapaJudicial', 'querellante', 'fiscal', 'juzgado','abuelas_presentado', )
-        search_fields = ['caratula', 'caso', '@punteo']
+		list_display = ('nombre_caso','caratula', 'juzgado', 'querellante')
+		list_display_links = ('nombre_caso','caratula')
+		list_filter = ('querellante', 'fiscal', 'juzgado',)
+		search_fields = ['caratula', 'nombre_caso', '@resumen']
 
 
-        fields = ((None, {'fields': ('caso', 'caratula', 'etapaJudicial',)}),
-                ('Detalles', {'classes': 'collapse','fields' : ('juzgado', 'fiscal', ('querellante','abuelas_presentado'), ('imputados', 'joven',), ) }),
+        fields = ((None, {'fields': ('nombre_caso', 'caratula', 'juzgado',)}),
+                ('Detalles', {'classes': 'collapse','fields' : ('fiscal', 'querellante','imputados', 'joven',) }),
                 ('Punteo', {'classes': 'collapse','fields' : ('punteo')}),)
 
 class Incidente(models.Model):    
-    caso_padre = models.ForeignKey(Causa)
-    caso = models.CharField(maxlength=100)
+    nombre_caso_padre = models.ForeignKey(Caso)
+    nombre_caso = models.CharField(maxlength=100)
     caratula = models.CharField(maxlength=100, blank=True)
     etapaJudicial = models.CharField("Etapa del proceso", maxlength=5, choices=(('INV', u'Investigación'),('INS', u'Intrucción'),('JO', u'Juicio Oral'),('AP', u'Apelación')))
     juzgado = models.ForeignKey(Juzgado)
     
     def __unicode__(self):
-        return self.caso   	    
+        return self.nombre_caso   	    
 
     class Admin:
         pass
 
 
+class CategoriaSeguimiento(models.Model):
+    nombre = models.CharField(u'Categoría de seguimiento', maxlength=100, unique=True)
+    
+    def __unicode__(self):
+        return self.nombre
+
+	class Meta:        
+		verbose_name_plural = u'Categorías de seguimiento'
+
+	class Admin:
+		pass
+
+
+
 
 class Seguimiento(models.Model):
 	fechaIngreso = models.DateTimeField(auto_now_add=True)
-	creadoPor = models.ForeignKey(User)	
-	causa = models.ForeignKey(Causa)
+	creado_por = models.ForeignKey(User)	
+	categoria = models.ForeignKey(CategoriaSeguimiento)
+	causa = models.ForeignKey(Caso)
 	foja = models.CharField(maxlength=20)
 	comentario = models.TextField()
 
 	def __unicode__(self):
-   		return "seguimiento " + str(self.fecha_ingreso)
+		return "seguimiento " + str(self.fecha_ingreso)
 
 	class Admin:
 

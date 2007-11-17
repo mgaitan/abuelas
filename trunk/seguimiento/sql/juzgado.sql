@@ -1,3 +1,4 @@
-INSERT INTO `seguimiento_juzgado` (`id`, `nombreJuzgado`, `ciudad`, `juez`, `direccion`, `telefonos`, `personaContacto`, `emailJuzgado`, `observaciones`) VALUES 
-(1, 'Tribunal Superior de Justicia', 'Buenos Aires', 'Jos√© O. Cas√°s', 'Cerrito 760 ', '4370-8500', '', 'ceremonial@tsjbaires.gov.ar', 'http://www.tsjbaires.gov.ar/');
-
+INSERT INTO `seguimiento_juzgado` (`id`, `nombre_juzgado`, `tipo_id`, `ciudad`, `juez`, `direccion`, `telefonos`, `persona_contacto`, `email_juzgado`, `observaciones`) VALUES 
+(1, 'Corte Suprema de Justicia', 4, 'la NaciÛn', 'Zaffaroni, ', '', '', '', '', ''),
+(2, 'Juzgado Federal N∫ 4', 1, 'Buenos Aires', 'Menganito GÛmez', '', '', '', '', ''),
+(3, 'Juzgado Federal N∫ 1', 3, 'CÛrdoba', 'Fulanita Perez', '', '', '', '', '');
