@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     #'django.contrib.sites',
 	#'django.django-evolution.django_evolution',
 	'abuelas.seguimiento',
-	'abuelas.tareas',	
+	'abuelas.tareas',
+	#'abuelas.wiki',
 	'django.contrib.admin'
 )
