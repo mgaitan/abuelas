@@ -10,9 +10,16 @@ El sistema debería ser capaz de analizar marcas que indiquen la declaracion, fi
 
 Por ejemplo, sobre el comentario de un seguimiento 
 
-[visto:1:4]Juan Carlos Scarpatti declara haber visto a "El Puma"[/visto], en una tabla de vistos se deberia guardar
+{{{
+El dia de la fecha, [visto:1:4]Juan Carlos Scarpatti declara 
+haber visto a "El Puma"[/visto] en la cocina de Campo de Mayo 
+aproximadamente el 4 de abril de 1978
+}}}
 
-|| id_testigo || id_represor || permalink || cita 
+
+en una tabla de vistos se deberia guardar
+
+|| *id_testigo* || *id_represor* || *permalink* || *cita* ||
 || 1 || 4 ||   /causas/seguimientos/ID || Juan Carlos Scarpatti declara haber visto a "El Puma" ||
 
 El parser tambien podria incluir un ancla a la posición exacta del texto, que será incluída en el permalink. 
@@ -23,7 +30,9 @@ El parser tambien podria incluir un ancla a la posición exacta del texto, que s
 
 Es menester la facilidad de uso y el acceso rápido a la informacion. Incluir opciones contextuales de uso frecuente (por ejemplo algunos tipos de filtros predefinidos), asi como tambien un uso adecuado de AJAX y efectos javascript (basados en jquery).
 
+== DISEÑO GRAFICO E INTERFAZ DE USUARIO == 
 
+El diseño se basa en CSS y minizará el uso de imágenes.
 
-
+http://abuelas.googlecode.com/svn/trunk/Pantallazo-1.png
 
