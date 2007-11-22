@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Caso {{ causa.nombre_caso }}{% endblock %}
+{% block header %} 
+
+<script type="text/javascript" src="/datos/js/ui.tabs.js"></script>
+<script>
+
+$(document).ready(function() {
+
+//oculto algunas layers
+  $('#masinfo').hide();
+  $('#form-seguimiento').hide();
+ 
+ //armo las pestañas
+    $("#tabs > ul").tabs();
+ 
+ // toggles formulario seguimiento
+  $('a#form-toggle').click(function() {
+      $('#form-seguimiento').toggle(400);
+	return false;
+  });
+
+
+ // toggles masinfo
+  $('a#masinfo-toggle').click(function() {
+      $('#masinfo').toggle(400);
+	return false;
+  });  
+
+  
+});
+
+</script>
+<link rel="stylesheet" href="/datos/css/ui.tabs.css" type="text/css" media="screen" title="Flora (Default)">
+ 
+{% endblock %}
+
+{% block contenido %}
+
+{% if causa %}
+
+					<h2>Caso {{ causa.nombre_caso }}</h2> {{ causa.caratula }} [<a href="/admin/seguimiento/caso/{{ causa.id }}/">Editar</a>]<br />
+					<a href="#" id="masinfo-toggle">(+)</a>
+					<div class="boxContent">
+					
+                    <div id="masinfo">
+                    Juzgado: <a href="/juzgados/{{ causa.juzgado.id }}/" > {{ causa.juzgado }} </a><br>
+                    Querellante/s: <ul>{% for querellante in causa.querellantes %} <li><a href="/querellante/{{ querellante.id }}/" > {{ querrellante }} </a></li>{% endfor %}</ul></br>
+                    </div>
+                    
+</div>                
+                
+
+        <div id="tabs" >
+            <ul>
+
+                <li><a href="#tab-1"><span>Seguimiento</span></a></li>
+                <li><a href="#tab-2"><span>Punteo</span></a></li>
+                <li><a href="#tab-3"><span>Incidentes</span></a></li>
+            </ul>
+
+            {# pestaña 1: Seguimiento #}            
+            <div id="tab-1">
+                
+                <a id="form-toggle" href="#">Agregar nuevo comentario de seguimiento</a><br>
+
+                <div id="form-seguimiento">
+                <form id="seguimiento" method="post" action="/causas/{{ causa.id }}/">
+                {{ form }}
+                <input type="submit" value="Enviar">
+                </form>
+                </div>
+                
+                
+                {% for seguimiento in seguimientos %}
+                <div class="box">
+					<div class="boxContent">
+                            <div class="tit_comentario">Anotado por <strong>{{ seguimiento.creado_por }}</strong> el <strong>{{seguimiento.fecha_ingreso|date:"j/m/Y" }}</strong> sobre la foja <strong>{{ seguimiento.foja}}</strong>. Catalogado como <strong>{{ seguimiento.categoria }}</strong>.</div>
+                <p>{{ seguimiento.comentario }}</p>
+					</div>
+				</div>
+                 {% endfor %}   
+            </div>
+            
+            {# comienza la pestaña 2: Punteo #}
+            
+            <div id="tab-2">
+
+                <div class="resumen">{{ causa.punteo }}</div>
+
+            </div>
+            <div id="tab-3">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            </div>
+            
+        </div>
+
+                
+
+               
+                
+                
+                
+
+
+
+{% else %}
+    <p>No existe este caso.</p>
+{% endif %}
+
+{% endblock %}
+

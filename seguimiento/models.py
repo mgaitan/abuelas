@@ -187,6 +187,7 @@ class Caso(models.Model):
 	imputados = models.ManyToManyField(Imputado, blank=True, filter_interface=models.HORIZONTAL)
 	joven = models.ManyToManyField(Joven,verbose_name=u"Jóven relacionado/a con la causa",blank=True, filter_interface=models.HORIZONTAL)   	
 	punteo = models.TextField(u'Resúmen', null=True, help_text=u'Usá la barra de herramientas para formatear y linkear el texto', blank=True) #wysiwyg
+	fecha_ingreso = models.DateTimeField(auto_now_add=True, null=True)
 
 
    	def __unicode__(self):
@@ -204,7 +205,7 @@ class Caso(models.Model):
 
 
                 fields = ((None, {'fields': ('nombre_caso', 'caratula', 'juzgado',)}),
-                                ('Detalles', {'classes': 'collapse','fields' : ('fiscal', 'querellante','imputados', 'joven',) }))
+                                ('Detalles', {'classes': 'collapse','fields' : ('fiscal', 'querellante','imputados', 'joven', 'punteo') }))
 
 class Incidente(models.Model):        
         nombre_caso_padre = models.ForeignKey(Caso)
@@ -236,11 +237,12 @@ class CategoriaSeguimiento(models.Model):
 
 
 class Seguimiento(models.Model):
-	fechaIngreso = models.DateTimeField(auto_now_add=True)
+	fecha_ingreso = models.DateTimeField(auto_now_add=True)
 	creado_por = models.ForeignKey(User)	
 	categoria = models.ForeignKey(CategoriaSeguimiento)
 	causa = models.ForeignKey(Caso)
 	foja = models.CharField(maxlength=20)
+	importante = models.BooleanField()
 	comentario = models.TextField()
 
 	def __unicode__(self):
@@ -248,19 +250,10 @@ class Seguimiento(models.Model):
 
 	class Admin:
 
-		fields = (
-                        (None, {'fields': (('fechaIngreso', 'foja'), ('incidente','creado_por'), 'comentario',)
-                        }),
-			('Opciones avanzadas', {
-                                'classes': 'collapse',
-                                'fields' : ('vencimiento', )
-                        }),
-                )        	
-
-                list_display = ('fechaIngreso','creado_por', 'causa', 'foja', 'comentario')
-                list_display_links = ('fechaIngreso', 'causa')
-                list_filter = ('causa','fechaIngreso','creado_por')        
-                ordering = ['fechaIngreso','causa']
+                list_display = ('fecha_ingreso','creado_por', 'causa', 'foja', 'comentario')
+                list_display_links = ('fecha_ingreso', 'causa')
+                list_filter = ('causa','fecha_ingreso','categoria', 'creado_por')        
+                ordering = ['fecha_ingreso','causa']
 
 
 	class Meta:
@@ -269,7 +262,7 @@ class Seguimiento(models.Model):
 
 
 class SeguimientoIncidente(models.Model):
-	fechaIngreso = models.DateTimeField(auto_now_add=True)
+	fecha_ingreso = models.DateTimeField(auto_now_add=True)
 	creado_por = models.ForeignKey(User)
 	incidente = models.ForeignKey(Incidente)
 	foja = models.CharField(maxlength=20)
@@ -279,10 +272,10 @@ class SeguimientoIncidente(models.Model):
    	        return "seguimiento Incidente" + str(self.fecha_ingreso)
 
 	class Admin:
-		date_hierarchy = 'fechaIngreso'
+		date_hierarchy = 'fecha_ingreso'
 
 		fields = ((None, {
-				'fields': (('fechaIngreso', 'foja'), ('incidente','creado_por'), 'comentario',)}),
+				'fields': (('fecha_ingreso', 'foja'), ('incidente','creado_por'), 'comentario',)}),
                         ('Opciones avanzadas', {
                                 'classes': 'collapse',
                                 'fields' : ('vencimiento', )

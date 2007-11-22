@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Abuelas</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="/datos/css/default.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="/datos/js/jquery/jquery.js"></script>
+
+{% block header %}{% endblock %}
+
+
+</head>
+<body>
+<div id="outer">
+	<div id="header">
+		<h1><a href="#">Abuelas</a></h1>
+		<h2>Sistema de Gestión del Equipo Jurídico</h2>
+	</div>
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="#" accesskey="1" title="">Inicio</a></li>
+			<li><a href="#" accesskey="2" title="">Causas</a></li>
+			<li><a href="#" accesskey="3" title="">Tareas</a></li>
+			<li><a href="#" accesskey="4" title="">Búsqueda</a></li>
+			<li><a href="#" accesskey="5" title="">Administración</a></li>
+		</ul>
+	</div>
+	<div id="content">
+		<div id="primaryContentContainer">
+			<div id="primaryContent">
+				<div class="box">
+					<h2>{{ titulo }}</h2>
+					<div class="boxContent">
+						{% block contenido %}{% endblock %}
+					</div>
+				</div>
+				
+				
+
+			</div>
+		</div>
+		<div id="secondaryContent">
+
+			<div class="box boxB">
+				<div class="boxContent">
+					<form method="post" action="">
+						<div>
+							<span>Usuario:</span>
+							<input type="text" class="text" maxlength="32" name="username" />
+							<span>Password:</span>
+							<input type="password" class="text" maxlength="32" name="username" />
+							<input type="submit" class="button" value="Login" />
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="box boxB">
+				<div class="boxContent">
+					<form method="post" action="">
+						<div>
+							<input type="text" class="text" maxlength="32" name="keywords" />
+							<input type="submit" class="button" value="Buscar" />
+							<a href="#">Búsqueda Avanzada</a>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="box">
+				<h3>Tareas a realizar</h3>
+				<div class="boxContent">
+					<ul>
+						<li><a href="#">Enviar Nota</a></li>
+						<li><a href="#">Comprar Fernet</a></li>
+						<li><a href="#">Llamar a la flaca</a></li>
+						<li><a href="#">Dormir</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="box">
+				<h3>Nota importante</h3>
+				<div class="boxContent">
+					<p>Son Las ocho de la mañana en la republica argentina<a href="#">Más&#8230;</a></p>
+				</div>
+			</div>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="footer">
+		<p>Sitio realizado con por <a href="http://nqnwebs.com">Martín Gaitán</a> &copy; 2007. Funciona con <a href="http://www.djangoproject.com">Software Libre</a> </p>
+	</div>
+</div>
+</body>
+</html>
