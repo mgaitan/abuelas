@@ -1,0 +1,29 @@
+= Introduccion =
+
+Este proyecto, basado en [http://www.djangoproject.com Django], es un sistema de gestión integral para el Equipo Jurídico de [http://www.abuelas.org.ar Abuelas de Plaza de Mayo]. Comprenderá el seguimiento de Causas y sus incidentes, permitiendo filtros cruzados por fecha, categoria, etc. 
+
+Otra de las aplicaciones es una lista de tareas asignadas por usuario, con avisos de vencimiento y prioridades. 
+
+Tambien debe permitir la interpretación de metainformacion (al estilo wiki) sobre campos de texto donde se cargan resúmenes de declaraciones. Uno de los objetivos de este requerimiento es recabar todos los testigos que (posiblemente en distintas causas) han VISTO a un represor. 
+
+El sistema debería ser capaz de analizar marcas que indiquen la declaracion, filtrarla, y guardar la relacion Testigo-Vio-Represor junto con el link a al bloque de texto donde se extrajo la fuente. (seguimiento, punteo, etc). 
+
+Por ejemplo, sobre el comentario de un seguimiento 
+
+[visto:1:4]Juan Carlos Scarpatti declara haber visto a "El Puma"[/visto], en una tabla de vistos se deberia guardar
+
+|| id_testigo || id_represor || permalink || cita 
+|| 1 || 4 ||   /causas/seguimientos/ID || Juan Carlos Scarpatti declara haber visto a "El Puma" ||
+
+El parser tambien podria incluir un ancla a la posición exacta del texto, que será incluída en el permalink. 
+
+
+== REQUERIMIENTOS DE USABILIDAD ==
+
+
+Es menester la facilidad de uso y el acceso rápido a la informacion. Incluir opciones contextuales de uso frecuente (por ejemplo algunos tipos de filtros predefinidos), asi como tambien un uso adecuado de AJAX y efectos javascript (basados en jquery).
+
+
+
+
+
