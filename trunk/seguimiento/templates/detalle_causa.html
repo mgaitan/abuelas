@@ -23,9 +23,17 @@ $(document).ready(function() {
 
  // toggles masinfo
   $('a#masinfo-toggle').click(function() {
-      $('#masinfo').toggle(400);
+      $('#masinfo').toggle();
+      if ($(this).text()=="Ver detalles"){
+          $(this).text("Ocultar detalles");
+       }else{
+          $(this).text("Ver detalles");
+     }
+
 	return false;
   });  
+  
+  
 
   
 });
@@ -39,16 +47,24 @@ $(document).ready(function() {
 
 {% if causa %}
 
-					<h2>Caso {{ causa.nombre_caso }}</h2> {{ causa.caratula }} [<a href="/admin/seguimiento/caso/{{ causa.id }}/">Editar</a>]<br />
-					<a href="#" id="masinfo-toggle">(+)</a>
-					<div class="boxContent">
-					
+					<h2>Caso {{ causa.nombre_caso }} <a href="/admin/seguimiento/caso/{{ causa.id }}/" class="peque">Editar</a></h2> {{ causa.caratula }} 
+					<div class="derecha"><a href="#" id="masinfo-toggle" class="peque">Ver detalles</a></div>
                     <div id="masinfo">
-                    Juzgado: <a href="/juzgados/{{ causa.juzgado.id }}/" > {{ causa.juzgado }} </a><br>
-                    Querellante/s: <ul>{% for querellante in causa.querellantes %} <li><a href="/querellante/{{ querellante.id }}/" > {{ querrellante }} </a></li>{% endfor %}</ul></br>
+                    <table>
+
+                    <tr><td><strong>Juzgado:</strong></td><td> <a href="/juzgados/{{ causa.juzgado.id }}/" > {{ causa.juzgado }} </a></td></tr>
+                    <tr><td><strong>Fiscal:</strong></td><td> <a href="/fiscales/{{ causa.fiscal.id }}/" > {{ causa.fiscal }} </a></td></tr>
+
+                   <tr><td valign="top"><strong>Querellante/s:</strong></td> <td> <ul>{% for querellante in listas.querellantes %} <li> <a href="/querellantes/{{ querellante.id }}/" > {{ querellante }} </a></li>{% endfor %}</ul></td></tr>
+                    <tr><td valign="top"><strong>Imputados/s:</strong></td> <td> <ul>{% for imputado in listas.imputados %} <li><a href="/imputados/{{ imputado.id }}/" > {{ imputado }} </a></li>{% endfor %}</ul></td></tr>                    
+                    <tr><td valign="top"><strong>Jovenes/s:</strong></td> <td> <ul>{% for joven in listas.jovenes %} <li><a href="/jovenes/{{ joven.id }}/" > {{ joven }} </a></li>{% endfor %}</ul></td></tr>                    
+                    </table>
+
+                					
+
                     </div>
                     
-</div>                
+
                 
 
         <div id="tabs" >
