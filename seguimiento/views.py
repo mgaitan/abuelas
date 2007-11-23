@@ -19,6 +19,12 @@ def causas(request):
 	
 def causa_detalle(request, causa_id):
     causa = Caso.objects.get(pk=causa_id)
+
+    listas = {}
+    listas["querellantes"] = causa.querellante.all()
+    listas["imputados"] = causa.imputados.all()
+    listas["jovenes"] = causa.joven.all()
+    
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     
     if request.method == 'POST':
@@ -31,7 +37,7 @@ def causa_detalle(request, causa_id):
     else:
         form = FormSeguimiento()
         
-    return render_to_response('detalle_causa.html', {'causa': causa, 'seguimientos': seguimientos, 'form': form})
+    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form': form})
 	
 	
 
