@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Caso {{ causa.nombre_caso }}{% endblock %}
 {% block header %} 
+<link rel="stylesheet" href="/datos/css/ui.tabs.css" type="text/css" media="screen">
 
 <script type="text/javascript" src="/datos/js/jquery/ui.tabs.js"></script>
 <script>
@@ -39,7 +40,7 @@ $(document).ready(function() {
 });
 
 </script>
-<link rel="stylesheet" href="/datos/css/ui.tabs.css" type="text/css" media="screen" title="Flora (Default)">
+
  
 {% endblock %}
 
@@ -81,9 +82,9 @@ $(document).ready(function() {
                 <a id="form-toggle" href="#">Agregar nuevo comentario de seguimiento</a><br>
 
                 <div id="form-seguimiento">
-                <form id="seguimiento" method="post" action="/causas/{{ causa.id }}/">
-                {{ form }}
-                <input type="submit" value="Enviar">
+                <form id="seguimiento" method="post" action="/causas/{{ causa.id }}/" class="formulario">
+                {{ form.as_p }}
+                <input type="submit" value="Enviar" class="submit">
                 </form>
                 </div>
                 
