@@ -3,10 +3,8 @@ from django.shortcuts import render_to_response
 from django import newforms as forms
 from django.db.models import Q
 from abuelas.seguimiento.models import *
+from django.contrib.auth.models import User
 
-#formularios
-
-FormSeguimiento = forms.form_for_model(Seguimiento)
 
 # Create your views here.
 
@@ -15,6 +13,9 @@ def causas(request):
     pagina["causas"] = Caso.objects.all().order_by('nombre_caso')
     pagina["titulo"] = "Listado de Causas"
     return render_to_response('causas.html', pagina)    
+
+#formularios
+FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
 		
 	
 def causa_detalle(request, causa_id):
@@ -29,15 +30,19 @@ def causa_detalle(request, causa_id):
     
     if request.method == 'POST':
         form = FormSeguimiento(request.POST)
+        
+        #agrego los campos que se cargan automaticamente
+
         if form.is_valid():
-            instance = form.save()
+            instance = form.save(commit=False)
+            instance.creado_por = request.user #aqui deberia conocer cual es el usuario logueado. 
+            instance.causa = causa
             instance.save()
-            
             return HttpResponseRedirect('/causas/' + causa_id)
     else:
         form = FormSeguimiento()
         
-    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form': form})
+    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form': form, 'usuario': request.user.id })
 	
 	
 

@@ -352,6 +352,47 @@ a:hover
 {
 	clear: both;
 }
+/* formularios */ 
+.formulario {
+	width: 600px;
+	margin-top: 25px;
+}
+
+.formulario input, .formulario textarea, .formulario textarea {
+	padding: 5px;
+	/*width: 400px;*/
+	font-family: Helvetica, sans-serif;
+	font-size: 1.4em;
+	margin: 0px 0px 10px 0px;
+	border: 2px solid #ccc;
+}
+
+.formulario textarea {
+	height: 90px;
+}
+
+.formulario textarea:focus, .formulario input:focus {
+	border: 2px solid #007799;
+}
+
+.formulario input.submit {
+	width: 100px;
+	float: right;
+	margin-top: -30px;
+}
+
+.formulario label {
+	float: left;
+	text-align: right;
+	margin-right: 15px;
+	width: 100px;
+	padding-top: 5px;
+	font-size: 1.4em;
+}
+
+
+
+
 /* otros estilos */ 
 
 .peque {
@@ -361,4 +402,8 @@ a:hover
 .derecha { 
     float: right;
     }
+    
+    
+    
+    
 
