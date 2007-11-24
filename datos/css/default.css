@@ -358,7 +358,7 @@ a:hover
 	margin-top: 25px;
 }
 
-.formulario input, .formulario textarea, .formulario textarea {
+.formulario input, .formulario textarea, .formulario select {
 	padding: 5px;
 	/*width: 400px;*/
 	font-family: Helvetica, sans-serif;
