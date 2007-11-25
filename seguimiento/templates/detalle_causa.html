@@ -82,9 +82,10 @@ $(document).ready(function() {
                 <a id="form-toggle" href="#">Agregar nuevo comentario de seguimiento</a><br>
 
                 <div id="form-seguimiento">
-                <form id="seguimiento" method="post" action="/causas/{{ causa.id }}/" class="formulario">
-                {{ form.as_p }}
-                <p><input type="submit" value="Enviar" class="submit"></p>
+                <form id="seguimiento" method="post" action="." class="formulario">
+                {{ form_seguimiento.as_p }}
+                                <input type="hidden" name="tipo" value="seguimiento" />
+                <p><input type="submit" value="Enviar" class="submit" /></p>
                 </form>
                 </div>
                 
@@ -103,7 +104,26 @@ $(document).ready(function() {
             
             <div id="tab-2">
 
-                <div class="resumen">{{ causa.punteo }}</div>
+                <div class="resumen">
+                
+                {{ causa.punteo }}
+                
+                <div id="form-punteo">
+                <form id="seguimiento" method="post" action="." class="formulario">
+                
+                {{ form_punteo.as_p }}
+                
+                
+                <input type="hidden" name="tipo" value="punteo" />
+                <p><input type="submit" value="Enviar" class="submit"></p>
+                </form>
+                </div>
+                
+                
+                
+                
+                
+                </div>
 
             </div>
             <div id="tab-3">

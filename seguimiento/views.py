@@ -17,6 +17,10 @@ def causas(request):
 #formularios
 FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
 		
+class FormPunteo(forms.Form):
+    punteo = forms.CharField(widget=forms.Textarea, label="")
+
+		
 	
 def causa_detalle(request, causa_id):
     causa = Caso.objects.get(pk=causa_id)
@@ -29,20 +33,43 @@ def causa_detalle(request, causa_id):
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     
     if request.method == 'POST':
-        form = FormSeguimiento(request.POST)
+        #procesado de Formularios.
+               
         
-        #agrego los campos que se cargan automaticamente
+        if request.POST["tipo"] == "punteo":
+            #procesado del formulario de punteosss.
+            
+            form_punteo = FormPunteo(request.POST)            
+            
+            if  form_punteo.is_valid():            
+                causa.punteo = request.POST["punteo"]
+                causa.save()
+                return HttpResponseRedirect('/causas/' + causa_id)
+            else:
+                form_seguimiento = FormSeguimiento()                
+                
+        elif request.POST["tipo"] == "seguimiento":
+            #procesaso del formulario de seguimiento
 
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.creado_por = request.user #aqui deberia conocer cual es el usuario logueado. 
-            instance.causa = causa
-            instance.save()
-            return HttpResponseRedirect('/causas/' + causa_id)
+            form_seguimiento = FormSeguimiento(request.POST)
+            
+            if  form_seguimiento.is_valid():
+                instance = form_seguimiento.save(commit=False)
+
+                #agrego los campos que se cargan automaticamente
+                instance.creado_por = request.user 
+                instance.causa = causa
+                
+                instance.save()
+                return HttpResponseRedirect('/causas/' + causa_id)
+            else:
+                form_punteo = FormPunteo()
+                
     else:
-        form = FormSeguimiento()
-        
-    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form': form, 'usuario': request.user.id })
+        form_seguimiento = FormSeguimiento()
+        form_punteo = FormPunteo()
+    
+    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form_seguimiento': form_seguimiento, 'form_punteo': form_punteo, 'usuario': request.user.id })
 	
 	
 
