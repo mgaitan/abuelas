@@ -33,9 +33,7 @@ def causa_detalle(request, causa_id):
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     
     if request.method == 'POST':
-        #procesado de Formularios.
-               
-        
+        #procesado de Formularios.       
         if request.POST["tipo"] == "punteo":
             #procesado del formulario de punteosss.
             
@@ -71,6 +69,18 @@ def causa_detalle(request, causa_id):
     
     return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form_seguimiento': form_seguimiento, 'form_punteo': form_punteo, 'usuario': request.user.id })
 	
+
+
+def tabla_ajax(request, causa_id):
+    causa = Caso.objects.get(pk=causa_id)
+    sentido = {'asc': '', 'desc': '-'}
+    columna = ['creado_por', 'fecha_ingreso', 'categoria', 'foja', 'comentario']
+    
+    seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by(sentido[request.GET['dir']]+columna[int(request.GET['sort'])] )
+    return render_to_response('tabla-ajax.html', {'seguimientos': seguimientos})
+    
+
+
 	
 
 def juzgados(request):
