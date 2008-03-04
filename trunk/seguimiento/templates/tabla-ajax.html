@@ -1,0 +1,15 @@
+
+           <table>
+                 <tbody>
+
+                   {% for seguimiento in seguimientos %}
+                    <tr class={% if seguimiento.importante %}"grid-row-style2"{% else %}"grid-row-style1"{% endif %}>
+                    <td>{{ seguimiento.creado_por }}</td>
+                    <td>{{seguimiento.fecha_ingreso|date:"j/m/Y" }}</td>
+                    <td>{{ seguimiento.categoria }}</td>
+                    <td>{{ seguimiento.foja}}</td>
+                    <td>{{ seguimiento.comentario }} </td>
+                    </tr>
+                   {% endfor %}    
+                 </tbody>
+                </table>

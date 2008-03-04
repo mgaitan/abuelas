@@ -49,7 +49,7 @@ $(document).ready(
 		// create the grid
 		// returns a jQ object with a 'g' property - that's ingrid
 		var mygrid1 = $("#seguimiento1").ingrid({ 
-										//url: 'remote.php',
+										url: '/tabla_ajax/{{ causa.pk }}/',
 										//rowClasses: ['grid-row-style1'],
 										colWidths: [80,80,100,60,400],
 										
@@ -60,7 +60,7 @@ $(document).ready(
 										}										*/										
 										
 										paging: false,
-                                        sorting: false 
+                                        sorting: true 
 									});
 		
 
