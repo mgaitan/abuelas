@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from abuelas.seguimiento.models import Caso
 
 class Proyecto(models.Model):
-    nombre = models.CharField(u'Nombre del proyecto', maxlength=255)
+    nombre = models.CharField(u'Nombre del proyecto', max_length=255)
     fechaInicio =  models.DateField(u'Fecha de inicio', auto_now=True)
     caso = models.ForeignKey(Caso, null=True, blank=True, verbose_name="Proyecto relacionado al caso", help_text=u'Dejá el campo en blanco si se trata de otro tipo de proyecto.' )    
     fechaCierre = models.DateField(u'Fecha de finalización', null=True, blank=True, help_text=u'Dejá este campo en blanco si el proyecto no está finalizado')
@@ -20,7 +20,7 @@ class Proyecto(models.Model):
 
 class Tarea(models.Model):
     OPCIONES = ((1,u'Urgente'), (2,u'Importante'), (3,u'Normal'), (4,u'Tranqui'), (5,u'Cuando sea'))
-    descripcion = models.CharField(maxlength=255)
+    descripcion = models.CharField(max_length=255)
     asignado = models.ManyToManyField(User,verbose_name="Tarea asignada a", null=True, blank=True, help_text="Dejar en blanco para que cualquiera pueda ver las tareas del staff")
     fechaCreacion = models.DateTimeField(auto_now_add=True)    
     prioridad = models.SmallIntegerField(choices=OPCIONES)
