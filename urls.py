@@ -8,6 +8,7 @@ urlpatterns = patterns('',
 	(r'^juzgados/(?P<juzgado_id>\d+)/$', 'abuelas.seguimiento.views.juzgados_detalle'),
 	(r'^causas/$', 'abuelas.seguimiento.views.causas'),
 	(r'^causas/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.causa_detalle'),
+	(r'^tabla_ajax/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.tabla_ajax'),
 	
 
 )
