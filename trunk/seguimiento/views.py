@@ -17,12 +17,16 @@ def causas(request):
 #formularios
 FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
 		
-class FormPunteo(forms.Form):
-    punteo = forms.CharField(widget=forms.Textarea, label="")
+FormPunteo = forms.form_for_model(ParrafoPunteo, fields=('texto'))
+        
 
-		
-	
 def causa_detalle(request, causa_id):
+    #que solapa aparece por defecto?
+    if  request.GET.has_key('tab') :
+        tab = request.GET['tab']
+    else:
+        tab = 0
+
     causa = Caso.objects.get(pk=causa_id)
 
     listas = {}
@@ -31,6 +35,7 @@ def causa_detalle(request, causa_id):
     listas["jovenes"] = causa.joven.all()
     
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
+    punteos = ParrafoPunteo.objects.filter(Q(caso=causa_id)).order_by('-fecha_ingreso')
     
     if request.method == 'POST':
         #procesado de Formularios.       
@@ -40,9 +45,12 @@ def causa_detalle(request, causa_id):
             form_punteo = FormPunteo(request.POST)            
             
             if  form_punteo.is_valid():            
-                causa.punteo = request.POST["punteo"]
-                causa.save()
-                return HttpResponseRedirect('/causas/' + causa_id)
+                instance = form_punteo.save(commit=False)
+                #agrego los campos que se cargan automaticamente
+                instance.creado_por = request.user 
+                instance.caso = causa               
+                instance.save()
+                return HttpResponseRedirect('/causas/' + causa_id + '/?tab=1')
             else:
                 form_seguimiento = FormSeguimiento()                
                 
@@ -62,12 +70,15 @@ def causa_detalle(request, causa_id):
                 return HttpResponseRedirect('/causas/' + causa_id)
             else:
                 form_punteo = FormPunteo()
-                
+
     else:
         form_seguimiento = FormSeguimiento()
         form_punteo = FormPunteo()
     
-    return render_to_response('detalle_causa.html', {'causa': causa, 'listas': listas, 'seguimientos': seguimientos, 'form_seguimiento': form_seguimiento, 'form_punteo': form_punteo, 'usuario': request.user.id })
+    return render_to_response('detalle_causa.html', {'causa': causa,
+        'listas': listas, 'seguimientos': seguimientos,
+        'form_seguimiento': form_seguimiento, 'form_punteo': form_punteo,
+        'usuario': request.user.id, 'punteos': punteos, 'tab': tab })
 	
 
 
@@ -91,6 +102,6 @@ def juzgados(request):
 
 
 def juzgados_detalle(request, juzgado_id):
-	 return HttpResponse("You're looking el juzgado %s." % juzgado_id)
+    return HttpResponse("You're looking el juzgado %s." % juzgado_id)
     
     
