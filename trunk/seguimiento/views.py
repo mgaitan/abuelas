@@ -20,28 +20,8 @@ FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja',
 FormPunteo = forms.form_for_model(ParrafoPunteo, fields=('texto'))
 
 def seguimiento_form(request, causa_id):
-    form_seguimiento = FormSeguimiento(request.POST)
-    causa = Caso.objects.get(pk=causa_id)
-    
-    if request.method == 'POST':
-        #procesado de Formularios.                
-        if  form_seguimiento.is_valid():
-            instance = form_seguimiento.save(commit=False)
-            #agrego los campos que se cargan automaticamente
-            instance.creado_por = request.user 
-            instance.causa = causa
+    return render_to_response('form_seguimiento.html',{'form_seguimiento': FormSeguimiento()} )
             
-            instance.save()
-            return HttpResponseRedirect('/causas/redir/' + causa_id + '/')
-    else:
-        form_seguimiento = FormSeguimiento()
-        
-    return render_to_response('form_seguimiento.html',{'form_seguimiento': form_seguimiento})
-            
-def redir(request, causa_id):
-    return render_to_response('redir.html',{'causa_id': causa_id})    
-    
-
 
 def causa_detalle(request, causa_id):
     #que solapa aparece por defecto?
@@ -51,6 +31,7 @@ def causa_detalle(request, causa_id):
         tab = 0
 
     causa = Caso.objects.get(pk=causa_id)
+
     listas = {}
     listas["querellantes"] = causa.querellante.all()
     listas["imputados"] = causa.imputados.all()
@@ -76,14 +57,30 @@ def causa_detalle(request, causa_id):
             else:
                 form_seguimiento = FormSeguimiento()                
                 
+        elif request.POST["tipo"] == "seguimiento":
+            #procesaso del formulario de seguimiento
+
+            form_seguimiento = FormSeguimiento(request.POST)
+            
+            if  form_seguimiento.is_valid():
+                instance = form_seguimiento.save(commit=False)
+
+                #agrego los campos que se cargan automaticamente
+                instance.creado_por = request.user 
+                instance.causa = causa
+                
+                instance.save()
+                return HttpResponseRedirect('/causas/' + causa_id)
+            else:
+                form_punteo = FormPunteo()
 
     else:
-        form_seguimiento = FormSeguimiento()
+        #form_seguimiento = FormSeguimiento()
         form_punteo = FormPunteo()
     
     return render_to_response('detalle_causa.html', {'causa': causa,
         'listas': listas, 'seguimientos': seguimientos,
-         'usuario': request.user.id, 'punteos': punteos, 'tab': tab })
+        'usuario': request.user.id, 'punteos': punteos, 'tab': tab })
 	
 
 
