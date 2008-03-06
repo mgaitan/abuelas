@@ -5,8 +5,10 @@
 <script type="text/javascript" src="/datos/js/jquery/ui.tabs.js"></script>
 
 <script type="text/javascript" src="/datos/js/jquery/jquery.ingrid-0.9.2.js"></script>
+<script type="text/javascript" src="/datos/js/jquery/thickbox.js"></script>
 
 <link href="/datos/css/ingrid.css" rel="stylesheet" type="text/css" />
+<link href="/datos/css/thickbox.css" rel="stylesheet" type="text/css" />
 
 
 <script>
@@ -15,16 +17,16 @@ $(document).ready(function() {
 
 //oculto algunas layers
   $('#masinfo').hide();
-  $('#form-seguimiento').hide();
+  //$('#form-seguimiento').hide();
  
  //armo las pestañas
     $("#tabs > ul").tabs();
  
- // toggles formulario seguimiento
+ /* toggles formulario seguimiento
   $('a#form-toggle').click(function() {
-      $('#form-seguimiento').toggle(400);
+    $('#form-seguimiento').toggle(400);
 	return false;
-  });
+   });*/
 
 
  // toggles masinfo
@@ -51,7 +53,7 @@ $(document).ready(
 		// create the grid
 		// returns a jQ object with a 'g' property - that's ingrid
 		var mygrid1 = $("#seguimiento1").ingrid({ 
-										url: '/tabla_ajax/{{ causa.pk }}/',
+										url: '/causas/tabla_ajax/{{ causa.pk }}/',
 										//rowClasses: ['grid-row-style1'],
 										colWidths: [80,80,100,60,400],
                                         height: 550,
@@ -129,17 +131,11 @@ $(document).ready(
             <div id="tab-1">
             
                 
-                <a id="form-toggle" href="#">Agregar nuevo comentario de seguimiento</a><br /><br /><br />
+                <a class="thickbox" id="form-toggle" href="/causas/form_seguimiento/{{ causa.id }}/?height=400&width=500&TB_iframe=true">Agregar nuevo comentario de seguimiento</a><br /><br /><br />
                 
                 
 
-                <div id="form-seguimiento">
-                <form id="seguimiento" method="post" action="." class="formulario">
-                {{ form_seguimiento.as_p }}
-                                <input type="hidden" name="tipo" value="seguimiento" />
-                <p><input type="submit" value="Enviar" class="submit" /></p>
-                </form>
-                </div>
+              
 
                 <table id="seguimiento1">
                  <thead>
@@ -191,8 +187,8 @@ $(document).ready(
                 </form>
                 </div>
                 
-                <table class="datagrid grid-header-bg" id="punteo1" width="100%">
-                               <thead>
+                <table class="datagrid"  id="punteo1" width="100%">
+                               <thead class="grid-header-bg"">
                                 <tr>
                                 <th>Punteo</th>
                              
