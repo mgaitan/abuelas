@@ -415,6 +415,20 @@ a:hover
     }
     
     
-    
-    
+.rounded {
+	text-decoration: bold;
+	text-align:center;
+	background-color:#C3D9FF;
+	margin:0 auto 0 auto;
+	width:390px;
+}    
+
+.errorlist {
+	background-color:#E74F4F;
+	text-decoration: bold;
+	color: white;
+	text-align:center;
+	margin:0 auto 0 auto;
+	width:390px;
+}
 

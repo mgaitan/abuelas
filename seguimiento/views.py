@@ -35,12 +35,28 @@ def seguimiento_form(request, causa_id):
             form_seguimiento = FormSeguimiento() #genero un formulario limpio
             return render_to_response('form_seguimiento.html',{'form_seguimiento': form_seguimiento, 'ok': True})
     else:
-        form_seguimiento = FormSeguimiento()
-        
+        form_seguimiento = FormSeguimiento()       
     return render_to_response('form_seguimiento.html',{'form_seguimiento': form_seguimiento})
             
-def redir(request, causa_id):
-    return render_to_response('redir.html',{'causa_id': causa_id})    
+
+def punteo_form(request, causa_id):
+    form_punteo = FormPunteo(request.POST)
+    causa = Caso.objects.get(pk=causa_id)
+    
+    if request.method == 'POST':
+        #procesado de Formularios.                
+        if  form_punteo.is_valid():
+            instance = form_punteo.save(commit=False)
+            #agrego los campos que se cargan automaticamente
+            instance.creado_por = request.user 
+            instance.caso = causa
+            instance.save()
+            form_punteo = FormPunteo() #genero un formulario limpio
+            return render_to_response('form_punteo.html',{'form_punteo': form_punteo, 'ok': True})
+    else:
+        form_punteo = FormPunteo()       
+    return render_to_response('form_punteo.html',{'form_punteo': form_punteo})
+
     
 
 
@@ -60,30 +76,8 @@ def causa_detalle(request, causa_id):
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     punteos = ParrafoPunteo.objects.filter(Q(caso=causa_id)).order_by('-fecha_ingreso')
     
-    if request.method == 'POST':
-        #procesado de Formularios.       
-        if request.POST["tipo"] == "punteo":
-            #procesado del formulario de punteosss.
-            
-            form_punteo = FormPunteo(request.POST)            
-            
-            if  form_punteo.is_valid():            
-                instance = form_punteo.save(commit=False)
-                #agrego los campos que se cargan automaticamente
-                instance.creado_por = request.user 
-                instance.caso = causa               
-                instance.save()
-                #return HttpResponseRedirect('/causas/' + causa_id)
-
-                return HttpResponseRedirect('/causas/' + causa_id + '/?tab=1')
-
-            else:
-                form_seguimiento = FormSeguimiento()                
-                
-
-    else:
-        form_seguimiento = FormSeguimiento()
-        form_punteo = FormPunteo()
+    form_seguimiento = FormSeguimiento()
+    form_punteo = FormPunteo()
     
     return render_to_response('detalle_causa.html', {'causa': causa,
         'listas': listas, 'seguimientos': seguimientos,

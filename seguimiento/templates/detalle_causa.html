@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Caso {{ causa.nombre_caso }}{% endblock %}
 {% block header %} 
-<link rel="stylesheet" href="/datos/css/ui.tabs.css" type="text/css" media="screen">
-<script type="text/javascript" src="/datos/js/jquery/ui.tabs.js"></script>
 
+<script type="text/javascript" src="/datos/js/jquery/ui.tabs.js"></script>
+<script type="text/javascript" src="/datos/js/jquery/jquery.cookie.js"></script>
 <script type="text/javascript" src="/datos/js/jquery/jquery.ingrid-0.9.2.js"></script>
 <script type="text/javascript" src="/datos/js/jquery/thickbox.js"></script>
 
+<link rel="stylesheet" href="/datos/css/ui.tabs.css" type="text/css" media="screen">
 <link href="/datos/css/ingrid.css" rel="stylesheet" type="text/css" />
 <link href="/datos/css/thickbox.css" rel="stylesheet" type="text/css" />
 
@@ -20,7 +21,7 @@ $(document).ready(function() {
   //$('#form-seguimiento').hide();
  
  //armo las pestañas
-    $("#tabs > ul").tabs();
+    $("#tabs > ul").tabs({"cache": true});
  
  /* toggles formulario seguimiento
   $('a#form-toggle').click(function() {
@@ -131,7 +132,7 @@ $(document).ready(
             <div id="tab-1">
             
                 
-                <a class="thickbox" id="form-toggle" href="/causas/form_seguimiento/{{ causa.id }}/?height=400&width=450&modal=true"">Agregar nuevo comentario de seguimiento</a><br /><br /><br />
+                <a class="thickbox" id="form-toggle" href="/causas/form_seguimiento/{{ causa.id }}/?height=400&width=500&TB_iframe=true">Agregar nuevo comentario de seguimiento</a><br /><br />
                 
                 
 
@@ -173,19 +174,12 @@ $(document).ready(
             
             <div id="tab-2">
 
+<a class="thickbox" id="form-toggle2" href="/causas/form_punteo/{{ causa.id }}/?height=400&width=500&TB_iframe=true">Agregar nuevo párrafo de punteo</a><br /><br />
+
                 <div class="resumen">
                 
-               
-                <div id="form-punteo">
-                <form id="seguimiento" method="post" action="." class="formulario">
                 
-                {{ form_punteo.as_p }}
-                
-                
-                <input type="hidden" name="tipo" value="punteo" />
-                <p><input type="submit" value="Enviar" class="submit"></p>
-                </form>
-                </div>
+
                 
                 <table class="datagrid"  id="punteo1" width="100%">
                                <thead class="grid-header-bg"">
