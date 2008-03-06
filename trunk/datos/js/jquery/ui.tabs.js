@@ -57,7 +57,7 @@
             initial: 0,
             event: 'click',
             disabled: [],
-            cookie: null, // pass options object as expected by cookie plugin: { expires: 7, path: '/', domain: 'jquery.com', secure: true }
+            cookie: { expires: 7, path: '/'},
             // TODO bookmarkable: $.ajaxHistory ? true : false,
             unselected: false,
             unselect: options.unselected ? true : false,

@@ -12,7 +12,9 @@ urlpatterns = patterns('',
 	(r'^causas/tabla_ajax/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.tabla_ajax'),
 	#ajax para formulario de seguimiento
 	(r'^causas/form_seguimiento/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.seguimiento_form'),
-	(r'^causas/redir/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.redir'),
+	
+	#ajax para formulario de punteo
+	(r'^causas/form_punteo/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.punteo_form'),
 	
 	(r'^causas/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.causa_detalle'),
 	
