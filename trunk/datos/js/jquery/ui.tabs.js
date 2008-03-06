@@ -57,7 +57,7 @@
             initial: 0,
             event: 'click',
             disabled: [],
-            cookie: { expires: 7, path: '/'},
+            cookie:  { expires: 7, path: '/' },
             // TODO bookmarkable: $.ajaxHistory ? true : false,
             unselected: false,
             unselect: options.unselected ? true : false,

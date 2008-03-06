@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<script type="text/javascript" src="/datos/js/jquery/jquery.js"></script>
+
+<link href="/datos/css/default.css" rel="stylesheet" type="text/css" />
+<link href="/datos/css/ingrid.css" rel="stylesheet" type="text/css" />
+    
+
+</head>
+<body>
+
+{% if ok %}
+<div class="rounded">Se agregó una marca a este párrafo</div>
+{% endif %}
+
+<div id="form-seguimiento">
+              <form id="seguimiento" method="post" action="." class="formulario">
+              {{ form_marca.as_p }}
+                              <input type="hidden" name="tipo" value="marca" />
+              <p><input type="submit" value="Enviar" class="submit" /></p>
+              </form>
+</div>
+
+<table class="datagrid"  id="punteo1" width="100%">
+                               <thead class="grid-header-bg"">
+                                <tr>
+                                <th>Punteo</th>
+                                
+                                </tr>
+                               </thead>
+                               <tbody>
+                
+                                 {% for marca in marcas %}
+                                  <tr class="grid-row-style1">
+                                
+                                  <td>{{ marca.comentario }}</td>
+                             
+                                  </tr>
+                                 {% endfor %}    
+                               </tbody>
+                              </table>
+
+</body>
+</html>

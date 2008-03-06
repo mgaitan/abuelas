@@ -257,7 +257,7 @@ a:hover
 
 #content ul
 {
-	margin-bottom: 1em;
+	/*margin-bottom: 1em;*/
 	padding-left: 1em;
 	line-height: 1.8em;
 }

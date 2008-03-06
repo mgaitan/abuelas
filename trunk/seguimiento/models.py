@@ -104,8 +104,8 @@ class Imputado(models.Model):
     apellido = models.CharField(max_length=50, blank=True)
     tipo_imputacion = models.ForeignKey(
         TipoImputacion,
-        verbose_name= u'Tipo de imputación')
-    rol = models.ForeignKey(RolParticipacion, verbose_name=u'Rol en el hecho')
+        verbose_name= u'Tipo de imputación', core=True, edit_inline=True)
+    rol = models.ForeignKey(RolParticipacion, verbose_name=u'Rol en el hecho', core=True, edit_inline=True)
     abogado = models.CharField(max_length=50, blank=True)
     mayor70 = models.BooleanField(u'Mayor de 70 años?')
     procesado = models.BooleanField(u'¿Está procesado?')
@@ -242,12 +242,15 @@ class CategoriaMarcasPunteo(models.Model):
         pass
     
 class MarcasPunteo(models.Model):
+    causa = models.ForeignKey(Caso)
     parrafo = models.ForeignKey(ParrafoPunteo)
-    categoria = models.ForeignKey(CategoriaMarcasPunteo)
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
     creado_por = models.ForeignKey(User)
-    fecha_incidente = models.DateField()
-    resumen = models.CharField(u'Claves o fragmento', max_length=200)
+    categoria = models.ForeignKey(CategoriaMarcasPunteo)
+    fecha_incidente = models.DateField(u'Fecha relacionada', blank=True, null=True)
+    comentario = models.TextField(u'Comentario')
+    imputados = models.ManyToManyField(Imputado, verbose_name=u'Imputados relacionados', filter_interface=models.VERTICAL, blank=True, null=True)
+    importante = models.BooleanField()
     
     
 

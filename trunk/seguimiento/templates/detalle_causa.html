@@ -185,16 +185,16 @@ $(document).ready(
                                <thead class="grid-header-bg"">
                                 <tr>
                                 <th>Punteo</th>
-                             
+                                <th style="width: 25px;"></th>
                                 </tr>
                                </thead>
                                <tbody>
                 
-                                 {% for parrafo in punteos %}
+                                 {% for parrafo,cantidad in punteos %}
                                   <tr class="grid-row-style1">
                                 
                                   <td>{{ parrafo.texto }}</td>
-                             
+                                <td><a class="thickbox peque" href="/causas/form_marcas/{{ parrafo.caso.id }}/{{ parrafo.id }}/?height=400&width=500&TB_iframe=true">{{ cantidad }}</a></td>
                                   </tr>
                                  {% endfor %}    
                                </tbody>
