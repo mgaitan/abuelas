@@ -16,11 +16,12 @@ def causas(request):
 
 #formularios
 FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
-		
 FormPunteo = forms.form_for_model(ParrafoPunteo, fields=('texto'))
+FormMarcas = forms.form_for_model(MarcasPunteo, fields=('categoria', 'comentario', 'importante', 'fecha_incidente', 'imputados'))
 
 def seguimiento_form(request, causa_id):
     form_seguimiento = FormSeguimiento(request.POST)
+    
     causa = Caso.objects.get(pk=causa_id)
     
     if request.method == 'POST':
@@ -30,7 +31,7 @@ def seguimiento_form(request, causa_id):
             #agrego los campos que se cargan automaticamente
             instance.creado_por = request.user 
             instance.causa = causa
-            
+    
             instance.save()
             form_seguimiento = FormSeguimiento() #genero un formulario limpio
             return render_to_response('form_seguimiento.html',{'form_seguimiento': form_seguimiento, 'ok': True})
@@ -42,7 +43,6 @@ def seguimiento_form(request, causa_id):
 def punteo_form(request, causa_id):
     form_punteo = FormPunteo(request.POST)
     causa = Caso.objects.get(pk=causa_id)
-    
     if request.method == 'POST':
         #procesado de Formularios.                
         if  form_punteo.is_valid():
@@ -57,7 +57,28 @@ def punteo_form(request, causa_id):
         form_punteo = FormPunteo()       
     return render_to_response('form_punteo.html',{'form_punteo': form_punteo})
 
-    
+def marcas_form(request, causa_id, parrafo_id):
+    form_marca = FormMarcas(request.POST)
+    parrafo = ParrafoPunteo.objects.get(pk=parrafo_id)
+    causa = Caso.objects.get(pk=causa_id)
+    marcas = MarcasPunteo.objects.filter(Q(causa=causa_id) & Q(parrafo=parrafo_id)).order_by('-fecha_ingreso')
+    ok = False
+    if request.method == 'POST':
+        if form_marca.is_valid(): 
+            instance = form_marca.save(commit=False)  
+            #agrego los campos que se cargan automaticamente
+            instance.creado_por = request.user 
+            instance.causa = causa            
+            instance.parrafo = parrafo
+            instance.save()
+            form_marca = FormMarcas() #formulario limpio
+            ok = True
+            return render_to_response('form_marcas.html',{'form_marca': form_marca,
+    'marcas': marcas, 'ok': ok, 'causa_id': causa.id, 'parrafo':parrafo})    
+    else:
+        form_marca = FormMarcas() #formulario limpio
+    return render_to_response('form_marcas.html',{'form_marca': form_marca,
+    'marcas': marcas, 'ok': ok, 'causa_id': causa.id, 'parrafo':parrafo})
 
 
 def causa_detalle(request, causa_id):
@@ -75,6 +96,7 @@ def causa_detalle(request, causa_id):
     
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     punteos = ParrafoPunteo.objects.filter(Q(caso=causa_id)).order_by('-fecha_ingreso')
+    punteos = [(parrafin, len(MarcasPunteo.objects.filter(Q(parrafo=parrafin)))) for parrafin in punteos]
     
     form_seguimiento = FormSeguimiento()
     form_punteo = FormPunteo()

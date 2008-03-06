@@ -16,6 +16,10 @@ urlpatterns = patterns('',
 	#ajax para formulario de punteo
 	(r'^causas/form_punteo/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.punteo_form'),
 	
+	#ajax para formulario de marcas de punteo
+	(r'^causas/form_marcas/(?P<causa_id>\d+)/(?P<parrafo_id>\d+)/$', 'abuelas.seguimiento.views.marcas_form'),
+	
+	
 	(r'^causas/(?P<causa_id>\d+)/$', 'abuelas.seguimiento.views.causa_detalle'),
 	
 
