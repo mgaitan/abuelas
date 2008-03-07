@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load markup %} {# agrego el filtro markdown syntax #}
 {% block title %}Caso {{ causa.nombre_caso }}{% endblock %}
 {% block header %} 
 
@@ -193,7 +194,7 @@ $(document).ready(
                                  {% for parrafo,cantidad in punteos %}
                                   <tr class="grid-row-style1">
                                 
-                                  <td>{{ parrafo.texto }}</td>
+                                  <td>{{ parrafo.texto|markdown }}</td>
                                 <td><a class="thickbox peque" href="/causas/form_marcas/{{ parrafo.caso.id }}/{{ parrafo.id }}/?height=400&width=500&TB_iframe=true">{{ cantidad }}</a></td>
                                   </tr>
                                  {% endfor %}    
