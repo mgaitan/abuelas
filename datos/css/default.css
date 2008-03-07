@@ -432,3 +432,6 @@ a:hover
 	width:390px;
 }
 
+tr.grid-row-style1 em {
+	background-color: #FBF185;
+	}

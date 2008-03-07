@@ -84,5 +84,6 @@ INSTALLED_APPS = (
 	'abuelas.seguimiento',
 	#'abuelas.tareas',
 	#'abuelas.wiki',
+	'django.contrib.markup',
 	'django.contrib.admin'
 )
