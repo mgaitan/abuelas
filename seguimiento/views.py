@@ -17,7 +17,7 @@ def causas(request):
 #formularios
 FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
 FormPunteo = forms.form_for_model(ParrafoPunteo, fields=('texto'))
-FormMarcas = forms.form_for_model(MarcasPunteo, fields=('categoria', 'comentario', 'importante', 'fecha_incidente', 'imputados'))
+FormMarcas = forms.form_for_model(MarcasPunteo, fields=('categoria', 'comentario', 'importante', 'fecha_incidente', 'imputados', 'testigos'))
 
 def seguimiento_form(request, causa_id):
     form_seguimiento = FormSeguimiento(request.POST)

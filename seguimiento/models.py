@@ -4,6 +4,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Fiscal(models.Model):
     nombre_apellido = models.CharField("Nombre y Apellido", max_length=70)
     fiscalia = models.CharField(max_length=100)
@@ -229,6 +230,13 @@ class ParrafoPunteo(models.Model):
     class Admin:
         pass
 
+
+class Testigo(models.Model):
+    nombre_apellido = models.CharField("Nombre y Apellido", max_length=200)
+    observaciones = models.TextField(blank=True)
+    
+
+
 class CategoriaMarcasPunteo(models.Model):
     nombre = models.CharField(u'Categoría de marcas de punteo', max_length=100, unique=True)
     
@@ -249,11 +257,10 @@ class MarcasPunteo(models.Model):
     categoria = models.ForeignKey(CategoriaMarcasPunteo)
     fecha_incidente = models.DateField(u'Fecha relacionada', blank=True, null=True)
     comentario = models.TextField(u'Comentario')
-    imputados = models.ManyToManyField(Imputado, verbose_name=u'Imputados relacionados', filter_interface=models.VERTICAL, blank=True, null=True)
+    imputados = models.ManyToManyField(Imputado, verbose_name=u'Imputados relacionados', blank=True, null=True)
+    testigos = models.ManyToManyField(Testigo, verbose_name=u'Testigos relacionados', blank=True, null=True)
     importante = models.BooleanField()
     
-    
-
 
 class Incidente(models.Model):
     nombre_caso_padre = models.ForeignKey(Caso)
