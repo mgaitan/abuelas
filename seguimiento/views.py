@@ -2,7 +2,9 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django import newforms as forms
 from django.db.models import Q
+from abuelas.casos.models import *
 from abuelas.seguimiento.models import *
+from abuelas.punteo.models import *
 from django.contrib.auth.models import User
 
 
@@ -17,7 +19,7 @@ def causas(request):
 #formularios
 FormSeguimiento = forms.form_for_model(Seguimiento, fields=('categoria', 'foja','importante', 'comentario'))
 FormPunteo = forms.form_for_model(ParrafoPunteo, fields=('texto'))
-FormMarcas = forms.form_for_model(MarcasPunteo, fields=('categoria', 'comentario', 'importante', 'fecha_incidente', 'imputados', 'testigos'))
+FormMarcas = forms.form_for_model(MarcasPunteo, fields=('categoria', 'comentario', 'importante', 'archivo_adjunto', 'fecha_incidente', 'imputados', 'testigos'))
 
 def seguimiento_form(request, causa_id):
     form_seguimiento = FormSeguimiento(request.POST)
@@ -57,18 +59,17 @@ def punteo_form(request, causa_id):
         form_punteo = FormPunteo()       
     return render_to_response('form_punteo.html',{'form_punteo': form_punteo})
 
-def marcas_form(request, causa_id, parrafo_id):
+def marcas_form(request, parrafo_id):
     form_marca = FormMarcas(request.POST)
     parrafo = ParrafoPunteo.objects.get(pk=parrafo_id)
-    causa = Caso.objects.get(pk=causa_id)
-    marcas = MarcasPunteo.objects.filter(Q(causa=causa_id) & Q(parrafo=parrafo_id)).order_by('-fecha_ingreso')
+    causa = Caso.objects.get(pk=parrafo.caso.id)
+    marcas = MarcasPunteo.objects.filter(Q(parrafo=parrafo_id)).order_by('-fecha_ingreso')
     ok = False
     if request.method == 'POST':
         if form_marca.is_valid(): 
             instance = form_marca.save(commit=False)  
             #agrego los campos que se cargan automaticamente
             instance.creado_por = request.user 
-            instance.causa = causa            
             instance.parrafo = parrafo
             instance.save()
             form_marca = FormMarcas() #formulario limpio
@@ -96,7 +97,8 @@ def causa_detalle(request, causa_id):
     
     seguimientos = Seguimiento.objects.filter(Q(causa=causa_id)).order_by('-fecha_ingreso')
     punteos = ParrafoPunteo.objects.filter(Q(caso=causa_id)).order_by('-fecha_ingreso')
-    punteos = [(parrafin, len(MarcasPunteo.objects.filter(Q(parrafo=parrafin)))) for parrafin in punteos]
+    
+    punteos = [(parrafin, MarcasPunteo.objects.filter(Q(parrafo=parrafin)), ) for parrafin in punteos]
     
     form_seguimiento = FormSeguimiento()
     form_punteo = FormPunteo()

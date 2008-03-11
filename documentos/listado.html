@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Listado de documentos{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <h1>Listado de documentos</h1>
+
+    <ul>
+      {% for doc in doc_listado|dictsort:"-fecha_upload" %}
+        <li><a href="{{ doc.get_archivo_url() }}">{{ doc.titulo }}</a></li>
+      {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}
