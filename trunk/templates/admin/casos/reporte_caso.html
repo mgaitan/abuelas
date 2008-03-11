@@ -1,0 +1,85 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Caso: "{{ caso.nombre_caso }}" {% endblock %}
+
+{% block breadcrumbs %} <div class="breadcrumbs"><a href="../../../">Inicio</a> › <a href="../">Casos</a> › {{ caso.nombre_caso }} </div>{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <h1>Caso: "{{ caso.nombre_caso }}"</h1>
+
+    
+
+{% if caso %}
+<div class="module">
+<ul class="object-tools">
+<li>
+<a class="historylink" href="./?edit=1">Modificar</a>
+</li>
+</ul>
+
+
+    <h2>Detalles</h2> 
+
+    <div id="masinfo">
+    <table>
+
+    <tr><td><strong>Carátula:</strong></td><td>  {{ caso.caratula }} </a></td></tr>
+    
+    <tr><td><strong>Juzgado:</strong></td><td>{%if caso.juzgado %} <a href="/admin/casos/juzgado/{{ caso.juzgado.id }}/" > {{ caso.juzgado }} </a>{% endif %}</td></tr>
+    <tr><td><strong>Fiscal:</strong></td><td> {%if caso.fiscal %}<a href="/admin/casos/fiscal/{{ caso.fiscal.id }}/" > {{ caso.fiscal }} </a>{% endif %}</td></tr>
+
+    <tr><td valign="top"><strong>Querellante/s:</strong></td> <td> <ul>{% for querellante in listas.querellantes %} <li> <a href="/querellantes/{{ querellante.id }}/" > {{ querellante }} </a></li>{% endfor %}</ul></td></tr>
+    <tr><td valign="top"><strong>Imputados/s:</strong></td> <td> <ul>{% for imputado in listas.imputados %} <li><a href="/imputados/{{ imputado.id }}/" > {{ imputado }} </a></li>{% endfor %}</ul></td></tr>                    
+    <tr><td valign="top"><strong>Jovenes/s:</strong></td> <td> <ul>{% for joven in listas.jovenes %} <li><a href="/jovenes/{{ joven.id }}/" > {{ joven }} </a></li>{% endfor %}</ul></td></tr>                    
+    <tr><td valign="top"><strong>Obeservaciones:</strong></td> <td> {{ caso.observaciones|safe }}</td></tr>                    
+    
+    </table>
+
+</div>
+{%  endif %}
+
+    
+    
+    
+    
+    <div class="module">
+            <table summary="Modelos disponibles en la aplicación Auth.">
+            <caption>Auth</caption>
+            
+                <tbody><tr>
+                
+                    <th scope="row"><a href="auth/group/">Grupos</a></th>
+                
+    
+                
+                    <td><a class="addlink" href="auth/group/add/">Agregar</a></td>
+                
+    
+                
+                    <td><a class="changelink" href="auth/group/">Modificar</a></td>
+                
+                </tr>
+            
+                <tr>
+                
+                    <th scope="row"><a href="auth/user/">Usuarios</a></th>
+                
+    
+                
+                    <td><a class="addlink" href="auth/user/add/">Agregar</a></td>
+                
+    
+                
+                    <td><a class="changelink" href="auth/user/">Modificar</a></td>
+                
+                </tr>
+            
+            </tbody></table>
+            </div>
+    
+    
+
+</div>
+{% endblock %}

@@ -38,12 +38,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/home/tin/laburo/abuelas/uploads/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = 'http://localhost:8000/uploads/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -73,6 +73,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    '/home/tin/laburo/abuelas/templates'
 )
 
 INSTALLED_APPS = (
@@ -81,9 +82,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.sites',
 	#'django.django-evolution.django_evolution',
+	'abuelas.casos',   
+    'abuelas.documentos',
+	'abuelas.incidentes',
 	'abuelas.seguimiento',
-	#'abuelas.tareas',
+    'abuelas.punteo',
+	'abuelas.tareas',
 	#'abuelas.wiki',
+
 	'django.contrib.markup',
 	'django.contrib.admin'
 )
+

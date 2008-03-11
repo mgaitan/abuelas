@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from abuelas.seguimiento.models import Caso
+from abuelas.casos.models import Caso
 
 class Proyecto(models.Model):
     nombre = models.CharField(u'Nombre del proyecto', max_length=255)
@@ -21,7 +21,7 @@ class Proyecto(models.Model):
 class Tarea(models.Model):
     OPCIONES = ((1,u'Urgente'), (2,u'Importante'), (3,u'Normal'), (4,u'Tranqui'), (5,u'Cuando sea'))
     descripcion = models.CharField(max_length=255)
-    asignado = models.ManyToManyField(User,verbose_name="Tarea asignada a", null=True, blank=True, help_text="Dejar en blanco para que cualquiera pueda ver las tareas del staff")
+    asignado = models.ManyToManyField(User,verbose_name="Tarea asignada a")
     fechaCreacion = models.DateTimeField(auto_now_add=True)    
     prioridad = models.SmallIntegerField(choices=OPCIONES)
     proyecto = models.ForeignKey(Proyecto)
@@ -30,10 +30,10 @@ class Tarea(models.Model):
     comentario = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return self.descripcion + "(Prioridad: " + OPCIONES[prioridad-1][1] + ")"
+        return self.descripcion
 
     class Admin:
-		list_filter = ('prioridad', 'vencimiento', 'asignado', 'completado')
+		list_filter = ('proyecto', 'prioridad', 'vencimiento', 'asignado', 'completado')
 		search_fields = ['@descripcion', '@comentario']
 		list_display = ('fechaCreacion','prioridad', 'proyecto', 'descripcion', 'completado')
 
