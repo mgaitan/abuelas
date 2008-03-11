@@ -1,9 +1,10 @@
 from django.conf.urls.defaults import *
 
+
 urlpatterns = patterns('',
 	(r'^admin/documentos/listado/$', 'abuelas.documentos.admin_views.listado'),
 	
-	#(r'^admin/casos/caso/(.+)/edit/$', 'abuelas.casos.admin_views.editar_caso'),
+	(r'^admin/casos/caso/add/$', 'abuelas.casos.admin_views.add_caso'),
 	(r'^admin/casos/caso/(.+)/$', 'abuelas.casos.admin_views.reporte_caso'),
 
 
