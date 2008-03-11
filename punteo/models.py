@@ -27,6 +27,10 @@ class ParrafoPunteo(models.Model):
         list_display_links = ('fecha_ingreso',)
         list_filter = ('caso','fecha_ingreso','creado_por')        
         ordering = ['fecha_ingreso','caso']        
+        fields = ((None, {'fields': ('texto', 'adjuntos')}),
+                                ('Detalles', {'classes': 'collapse','fields': ('creado_por', 'caso')}))
+        
+        
     
 
 
