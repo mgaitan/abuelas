@@ -1,0 +1,95 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Documentación{% endblock %}
+
+{% block breadcrumbs %} <div class="breadcrumbs"><a href="/admin/">Inicio</a> › Documentación </div>{% endblock %}
+
+
+{% block content %}
+
+<div class="colM" id="content">
+        
+<h1>Abuelas para abogad@s de Abuelas</h1>
+
+<div id="content-main">
+  <h2>Introducción</h2>
+
+  <p>Pues bien, amigos, esto es lo que ha salido. O mejor dicho, está saliendo, 
+porque la idea es que tenga un desarrollo continuo, 
+en función de las necesidades que vayan surgiendo </p>
+
+<h2>Respuestas a preguntas nunca hechas</h2>
+
+<ul>
+<li><h4>¿Qué es y para qué sirve Abuelas?</h4>
+<p>Básicamente, es una base de datos, y una interfaz web lo más amigable que me salió
+para interactuar con ella. La información se mantiene separada pero relacionada entre sí, 
+de modo que se puede analizar la información de diversas maneras (filtros, búsquedas, cruce de datos). </p></li>
+
+<li><h4>¿Cómo está pensado?</h4>
+
+<p> ¿Pensado? Mmmh...digamos que sólo lo hice! </p>
+<p>El diseño de la base de datos se centra en los <strong>Casos</strong> (nota: o causas, pero que pueden no estar judicilizadas). </p>
+<p>A partir de un Caso, se desprenden <strong>seguimientos</strong> y <strong>punteos</strong>, 
+y por supuesto, toda la descripción y las personas relacionadas con ese caso. <p>
+
+<p>Los <strong>seguimientos</strong> son pequeños apuntes para llevar <em>"el dia a dia"</em> del caso. 
+Además, puede asociarse a una <strong>Tarea</strong>, para denotar un vencimiento que hay que respetar. </p>
+
+<p>Los <strong>punteos</strong> son similares, pero <em>"hacia atrás"</em>, es decir, 
+donde va toda la info de investigación. Sobre cada <strong>parrafo de punteo</strong>, 
+pueden realizarse <strong>Marcas</strong>, que son informaciones claves que luego servirán para 
+realizar búsquedas y relacionar datos con individuos. A los punteos también pueden asociársele 
+<strong>documentos</strong> como adjuntos. </p></li>
+
+<li><h4>¿Cómo se usa?</h4>
+<p> Yo sólo lo programé, así que eso me lo contestarán ustedes, pero la tengo la espectativa 
+de que resulte intuitivo.El proceso más laborioso (incluso más que el mio) será cargar datos. Muchos datos. 
+Para eso, probablemente convenga empezar cargando un <strong>Caso</strong>, y luego sus punteos 
+y seguimientos.Pero hay un paso previo: agregar usuarios. </p></li>
+
+<li><h4>¿Ya está terminado? </h4>
+<p>¡No! Seguramente hay muchas cosas que no tienen errores, así que necesito que las anoten todas y me las manden
+(una captura de pantalla y una explicación pueden servir).</p>
+
+<p>Además de que  falta mucho por hacer. Digamos que espero no modificar demasiado la estructura de la base, 
+de modo que ya está funcional (ya veremos) para comenzar a cargar información. Pero restan programar 
+casi todas las "vistas de reporte individuales", o sea, una pantalla 
+donde se muestre la infomación de un elemento (por ejemplo, un testigo), y las relaciones con otros datos.</p>
+
+<p>Por ahora sólo hay una versión muy elemental de esta vista para los 
+<strong>Casos</strong>. Para el resto, se remite directamente al formulario de modificación, 
+o a la vista general (los listados donde están todos los "elementos") del mismo tipo. </p>
+
+<p>Y (entre otras cosas), falta una vista de búsqueda avanzada, que permita cruzar datos. 
+Por ejemplo, <em>"encontrar 'vistos' en punteos de causas con imputados menores a 70 años"</em> o cosas asi. 
+Por ahora, lo importante es que se genere la info. </p>
+</li>
+
+<li><h4>¿En qué otras cosas podemos ayudar?</h4>
+<p>Lo principal es aportar sus ideas y experiencias como usauri@s. Por ejemplo, en los 
+listados de elementos definí algunos campos para usarlos de filtros automáticos 
+(se pueden superponer). Quizás hay otros criterios más útiles, o algunos inservibles. <p>
+
+<p>Todo aporte será bienvenido, pero sepan que no todo se puede hacer (digamos, con un esfuerzo normal)</p></li>
+
+<li><h4>¿No te da vergüenza la falta de originalidad para el nombre?</h4>
+<p>¿No te gusta?... y a mi qué!</p></li>
+</ul>
+
+<h3>Despedida</h3>
+<p>De nada, che. Me tengo que ir a la facultad. Pero te dejo mi email: <strong>gaitan@gmail.com</strong>. Abrazo</p>
+
+
+
+
+</div>
+
+
+        
+        <br class="clear"/>
+    </div>
+
+
+
+{% endblock %}
