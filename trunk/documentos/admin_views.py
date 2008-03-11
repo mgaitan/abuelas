@@ -13,3 +13,6 @@ def listado(request):
         RequestContext(request, {}),
     )
 listado = staff_member_required(listado)
+
+def documentacion(request):
+    return render_to_response('admin/doc.html')
