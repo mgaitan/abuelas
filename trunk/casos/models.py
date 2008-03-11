@@ -102,7 +102,15 @@ class Imputado(models.Model):
         return self.nombre + ' ' + self.apellido
 
     class Admin:
-        pass
+        js = ('/datos/js/rte.jquery/jquery.js',
+                  '/datos/js/rte.jquery/jquery.rte.js',
+                  '/datos/js/rte.jquery/admin_textarea.js')        
+        
+
+        list_filter = ('tipo_imputacion', 'procesado', 'mayor70') 
+        search_fields = ('nombre', 'apellido', 'observaciones')
+        
+        
 
 class Declaracion(models.Model):
     declarante = models.ForeignKey(Imputado)

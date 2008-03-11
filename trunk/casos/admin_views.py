@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.admin.views.main import change_stage
+from django.contrib.auth.models import User
 
 def reporte_caso(request, caso_id):
     caso = get_object_or_404(Caso, pk=caso_id)
@@ -18,7 +19,7 @@ def reporte_caso(request, caso_id):
     if not request.GET.has_key('edit'):
         return render_to_response(
             "admin/casos/reporte_caso.html",
-            {'caso': caso,'listas': listas },
+            {'caso': caso,'listas': listas, 'user': request.user },
             RequestContext(request, {}),
         )
     else:

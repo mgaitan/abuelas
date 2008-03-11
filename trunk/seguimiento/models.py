@@ -36,10 +36,16 @@ class Seguimiento(models.Model):
         return "seguimiento " + str(self.fecha_ingreso)
 
     class Admin:
+        js = ('/datos/js/rte.jquery/jquery.js',
+               '/datos/js/rte.jquery/jquery.rte.js',
+               '/datos/js/rte.jquery/admin_textarea.js')        
         list_display = ('fecha_ingreso','creado_por', 'causa', 'foja', 'comentario', 'vencimiento')
         list_display_links = ('fecha_ingreso', 'causa')
         list_filter = ('causa','fecha_ingreso','categoria', 'creado_por')        
         ordering = ['fecha_ingreso','causa']
+        fields = ((None, {'fields': ('categoria', 'foja', 'comentario','vencimiento',)}),
+                                ('Detalles', {'classes': 'collapse','fields': ('creado_por', 'causa')}))
+        
 
     class Meta:
         order_with_respect_to = 'causa'

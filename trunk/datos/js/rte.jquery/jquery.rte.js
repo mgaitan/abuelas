@@ -110,7 +110,7 @@ jQuery.fn.rte = function(css_dir_url) {
             <p>\
                 <a href='#' class='bold'><img src='"+css_dir_url+"bold.gif' alt='bold' /></a>\
                 <a href='#' class='italic'><img src='"+css_dir_url+"italic.gif' alt='italic' /></a>\
-               <a href='#' class='underline'><img src='"+css_dir_url+"resaltado.gif' alt='subrayar' /></a>\
+               <a href='#' class='resaltado'><img src='"+css_dir_url+"resaltado.gif' alt='subrayar' /></a>\
             </p>\
             <p>\
                 <a href='#' class='unorderedlist'><img src='"+css_dir_url+"unordered.gif' alt='lista' /></a>\
@@ -127,7 +127,7 @@ jQuery.fn.rte = function(css_dir_url) {
         });
         $('.bold', tb).click(function(){ formatText(iframe, 'bold');return false; });
         $('.italic', tb).click(function(){ formatText(iframe, 'italic');return false; });
-        $('.underline', tb).click(function(){ formatText(iframe, 'underline'); $("span[@text-decoration=underline]").css("background-color", "#FFFF99"); return false; });
+        $('.resaltado', tb).click(function(){ formatText(iframe, 'hiliteColor', '#FFFF99'); return false; });
         $('.unorderedlist', tb).click(function(){ formatText(iframe, 'insertunorderedlist');return false; });
         $('.link', tb).click(function(){ 
             var p=prompt("URL:");
