@@ -2,7 +2,7 @@
 #coding=utf-8
 from django.db import models
 from django.contrib.auth.models import User
-from abuelas.casos.models import Caso, Documento, Testigo, Imputado
+from abuelas.casos.models import Documento, Caso, Testigo, Imputado
 
 
 

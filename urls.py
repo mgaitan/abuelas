@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 
 
-urlpatterns = patterns('',
-	#(r'^$', 'redirect_to', {'url': 'admin/', }),
+urlpatterns = patterns('django.views.generic.simple',
+	(r'^$', 'redirect_to', {'url': '/admin/', }),
 	(r'^admin/doc/$', 'abuelas.documentos.admin_views.documentacion'),
 	(r'^admin/documentos/listado/$', 'abuelas.documentos.admin_views.listado'),
 	
