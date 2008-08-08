@@ -18,10 +18,6 @@ class CategoriaSeguimiento(models.Model):
     class Meta:
         verbose_name_plural = u'Categorías de seguimiento'
 
-    class Admin:
-        pass
-
-
 class Seguimiento(models.Model):
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
     creado_por = models.ForeignKey(User)	
@@ -34,18 +30,6 @@ class Seguimiento(models.Model):
 
     def __unicode__(self):
         return "seguimiento " + str(self.fecha_ingreso)
-
-    class Admin:
-        js = ('/datos/js/rte.jquery/jquery.js',
-               '/datos/js/rte.jquery/jquery.rte.js',
-               '/datos/js/rte.jquery/admin_textarea.js')        
-        list_display = ('fecha_ingreso','creado_por', 'causa', 'foja', 'comentario', 'vencimiento')
-        list_display_links = ('fecha_ingreso', 'causa')
-        list_filter = ('causa','fecha_ingreso','categoria', 'creado_por')        
-        ordering = ['fecha_ingreso','causa']
-        fields = ((None, {'fields': ('categoria', 'foja', 'comentario','vencimiento',)}),
-                                ('Detalles', {'classes': 'collapse','fields': ('creado_por', 'causa')}))
-        
 
     class Meta:
         order_with_respect_to = 'causa'
@@ -60,9 +44,3 @@ class SeguimientoIncidente(models.Model):
     def __unicode__(self):
         return "seguimiento Incidente" + str(self.fecha_ingreso)
 
-    class Admin:
-        date_hierarchy = 'fecha_ingreso'
-        fields = ((None, {'fields': (('fecha_ingreso', 'foja'),
-            ('incidente','creado_por'), 'comentario',)}),
-            ('Opciones avanzadas', {'classes': 'collapse','fields': 
-            ('vencimiento', )}),)

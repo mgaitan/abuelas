@@ -18,19 +18,6 @@ class Fiscal(models.Model):
         return self.nombre_apellido + "(" + self.fiscalia + ")"
 
 
-    class Admin:
-        list_display = ('nombre_apellido', 'fiscalia', 'telefonos')
-        list_filter = ('nombre_apellido', 'fiscalia')
-        search_fields = ['nombre_apellido', 'fiscalia', '@observaciones']
-
-
-        fields = ((None, {'fields': ('nombre_apellido', 'fiscalia',
-                    'observaciones')}),
-                    ('Informacion de contacto',
-                    {'classes': 'collapse','fields':
-                    ('direccion_fiscalia', 'persona_contacto',
-                    'email', 'telefonos')}),)
-
     class Meta:
         verbose_name_plural = "Fiscales"
         ordering = ['nombre_apellido']
@@ -46,8 +33,6 @@ class Querellante(models.Model):
     def __unicode__(self):
         return self.nombre + ' ' + self.apellido
 
-    class Admin:
-        pass
 
 class Joven(models.Model):
     nombre = models.CharField(max_length=50)
@@ -61,14 +46,11 @@ class Joven(models.Model):
         max_length=50,blank=True)
     fecha_aprop = models.DateField("Fecha de apropiacion",blank=True)
     tipo = models.CharField("Situacion", max_length=50,
-        choices=(('APROP', 'Apropiado'),('ADOPT', 'Adoptado'),),
-        radio_admin=True)
+        choices=(('APROP', 'Apropiado'),('ADOPT', 'Adoptado'),),)
 
     def __unicode__(self):
         return self.nombre + ' ' + self.apellido
 
-    class Admin:
-        pass
 
     class Meta:
         verbose_name_plural = u'Jóvenes'
@@ -80,9 +62,6 @@ class TipoImputacion(models.Model):
 
     def __unicode__(self):
         return self.nombre
-
-    class Admin:
-        pass
 
     class Meta:
         verbose_name_plural = u'Tipos de imputación'
@@ -101,15 +80,6 @@ class Imputado(models.Model):
     def __unicode__(self):
         return self.nombre + ' ' + self.apellido
 
-    class Admin:
-        js = ('/datos/js/rte.jquery/jquery.js',
-                  '/datos/js/rte.jquery/jquery.rte.js',
-                  '/datos/js/rte.jquery/admin_textarea.js')        
-        
-
-        list_filter = ('tipo_imputacion', 'procesado', 'mayor70') 
-        search_fields = ('nombre', 'apellido', 'observaciones')
-        
         
 
 class Declaracion(models.Model):
@@ -124,9 +94,6 @@ class Declaracion(models.Model):
     class Meta:
         verbose_name_plural = u'Declaraciones'
 
-    class Admin:
-        pass
-
 class Analisis(models.Model):
     joven = models.ForeignKey(Joven)
     tipo = models.CharField(
@@ -140,8 +107,6 @@ class Analisis(models.Model):
     def __unicode__(self):
         return self.joven + ' (' + self.tipo + ')'
 
-    class Admin:
-        pass
 
     class Meta:
         pass
@@ -153,9 +118,6 @@ class TipoJuzgado(models.Model):
 
     def __unicode__(self):
         return self.nombre
-
-    class Admin:
-        pass
 
 
 class Juzgado(models.Model):
@@ -173,34 +135,21 @@ class Juzgado(models.Model):
     def __unicode__(self):
         return self.nombre_juzgado + ' de ' + self.ciudad
 
-    class Admin:
-
-        fields = ((None,
-            {'fields':('nombre_juzgado','tipo','ciudad',
-                'juez','observaciones')}),
-                    ('Informacion de contacto',{
-                            'classes': 'collapse',
-                                'fields': ('direccion', 'persona_contacto',
-                                'telefonos', 'email_juzgado')}),
-                )
-
 
 class Testigo(models.Model):
     nombre_apellido = models.CharField("Nombre y Apellido", max_length=200)
     observaciones = models.TextField(blank=True)
     
-    class Admin:
-        pass
 
 
 class Caso(models.Model):
     nombre_caso = models.CharField(max_length=100, unique=True)
     caratula = models.CharField(u'Carátula', max_length=100, blank=True,help_text=u'Dejá este campo en blanco si el caso aun no fué presentado')
     juzgado = models.ForeignKey(Juzgado, null=True, blank=True, help_text=u'Dejá este campo en blanco si el caso aun no fué presentado')
-    querellante = models.ManyToManyField(Querellante,blank=True, filter_interface=models.HORIZONTAL)
+    querellante = models.ManyToManyField(Querellante,blank=True)
     fiscal = models.ForeignKey(Fiscal, null=True, blank=True)
-    imputados = models.ManyToManyField(Imputado, blank=True, filter_interface=models.HORIZONTAL)
-    joven = models.ManyToManyField(Joven,verbose_name=u"Jóven relacionado/a con la causa",blank=True, filter_interface=models.HORIZONTAL)
+    imputados = models.ManyToManyField(Imputado, blank=True)
+    joven = models.ManyToManyField(Joven,verbose_name=u"Jóven relacionado/a con la causa",blank=True)
     #punteo = models.TextField(u'Resúmen', null=True, help_text=u'Usá la barra de herramientas para formatear y linkear el texto', blank=True) #wysiwyg
     fecha_ingreso = models.DateTimeField(auto_now_add=True, null=True)  
     observaciones = models.TextField(null=True, blank=True)
@@ -208,16 +157,4 @@ class Caso(models.Model):
 
     def __unicode__(self):
         return self.nombre_caso
-
-    class Admin:
-        js = ('/datos/js/rte.jquery/jquery.js',
-               '/datos/js/rte.jquery/jquery.rte.js',
-               '/datos/js/rte.jquery/admin_textarea.js')        
-
-        list_display = ('nombre_caso','caratula', 'juzgado', 'fiscal')
-        list_display_links = ('nombre_caso','caratula')
-        list_filter = ('querellante', 'fiscal', 'juzgado')
-        search_fields = ('nombre_caso',)
-        fields = ((None, {'fields': ('nombre_caso', 'caratula', 'juzgado','observaciones',)}),
-                        ('Detalles', {'classes': 'collapse','fields': ('fiscal', 'querellante','imputados', 'joven')}))
 

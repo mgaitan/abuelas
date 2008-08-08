@@ -12,10 +12,6 @@ class Proyecto(models.Model):
 
     def __unicode__(self):
         return self.nombre
-        
-    class Admin:
-        pass
-    
 
 
 class Tarea(models.Model):
