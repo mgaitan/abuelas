@@ -17,5 +17,3 @@ class Incidente(models.Model):
     def __unicode__(self):
         return self.nombre_caso
 
-    class Admin:
-        pass

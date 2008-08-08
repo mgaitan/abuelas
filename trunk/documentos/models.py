@@ -16,10 +16,3 @@ class Documento(models.Model):
     
     def __unicode__(self):
         return self.titulo
-        
-    class Admin:
-        list_display = ('titulo', 'fecha_upload', 'archivo', 'descripcion')
-        list_display_links = ('titulo',)
-        list_filter = ('fecha_upload',)
-        search_fields = ('titulo', 'descripcion')
-        fields = ((None, {'fields': ('archivo','titulo',)}), ('Detalles', {'classes': 'collapse', 'fields': ('descripcion','subido_por')}))
